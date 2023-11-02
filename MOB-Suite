@@ -1,0 +1,15 @@
+#!/bin/bash
+
+for file in *.fasta; 
+  do mob_recon --infile $file --outdir "${file%.fasta}"; 
+done
+
+#to rename each file after the name of directory:
+
+for p in */*; do [ -f "$p" ] && mv -i "$p" "${p%/*}/${p/\//.}"; done
+
+#to extract only plasmids fasta files into one directory, we first generate directory allplasmids and than copy plasmids
+
+mkdir allplasmids
+
+for f in */*plasmids*; do cp $f ./allplasmids; done
