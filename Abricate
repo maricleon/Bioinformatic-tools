@@ -1,0 +1,23 @@
+#!/bin/bash
+
+conda activate abricate
+
+abricate *.fasta --db ncbi --csv > output.file.txt
+ls *.fasta > list.txt
+
+abricate --fofn list.txt --db ncbi --csv > ncbi.all.csv
+
+abricate --summary ncbi.all.csv --csv > ncbi.summary.csv
+
+#optional: --minid 90 --mincov 70
+#databases: abricate --list
+DATABASE       SEQUENCES  DBTYPE  DATE
+argannot       1749       nucl    2019-Jul-28
+card           2241       nucl    2019-Jul-28
+ecoh           597        nucl    2019-Jul-28
+ecoli_vf       2701       nucl    2019-Jul-28
+megares        6635       nucl    2020-Feb-20
+ncbi           4324       nucl    2019-Jul-28
+plasmidfinder  263        nucl    2019-Jul-28
+resfinder      2434       nucl    2019-Jul-28
+vfdb           2597       nucl    2019-Jul-28
