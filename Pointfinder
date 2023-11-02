@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for file in *.fasta; do 
+	~/Programi/pointfinder/pointfinder/PointFinder.py  -i ${file} -o . -s staphylococcus_aureus -p ~/Programi/pointfinder/pointfinder_db/pointfinder_db/ --method blastn --method_path /usr/bin/blastn;
+done	
+
+#add name of the file in the last row of the file
+for file in *_results.tsv; do
+	awk ' { print $0 "\t" FILENAME } ' ${file} > temp; #"\t" means tab-delimited file
+	mv temp ${file}; 
+done
