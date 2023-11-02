@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for f in *.fasta; do
+	name=${f%_*}
+    ragtag.py scaffold cdiff_reference.fasta ${f} -o "${name}.scaffold"
+done
+
+makeblastdb -in cdiff_reference.fasta -dbtype nucl 
+
+for f in ZZV*/*.scaffold.fasta; do
+	blastn -query ${f} -db cdiff_reference.fasta -evalue 1 -task megablast -outfmt 6 > "${f}.comparisson.file"
+done
+
