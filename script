@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#As an example, your sequences appear as follows:
+sample1_R1.fastq.gz sample1_R2.fastq.gz sample1_ont.fastq.gz 
+sample2_R1.fastq.gz sample2_R2.fastq.gz sample2_ont.fastq.gz 
+sample3_R1.fastq.gz sample3_R2.fastq.gz sample3_ont.fastq.gz
+
 #nanofilt for filtering long read data 
 
 for f in *.fastq.gz; do
