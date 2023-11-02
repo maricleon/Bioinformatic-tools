@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for file in *.fasta; do
+	
+	~/Programi/AMRFinderPlus/amr/amrfinder -n ${file} -O Escherichia -o "${file##*/}_amr" --name ${file}
+	
+	echo ${file##*/} 
+
+done
+
+cat *.txt >> all_amr.txt
