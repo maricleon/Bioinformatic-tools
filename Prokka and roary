@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for k in *.fasta; do prokka $k --outdir "$k".prokka.output --prefix PROKKA_$k; echo $k; done
+
+mkdir GFF
+cp ./*/*.gff GFF
+
+roary -n -e -p 8 ./GFF/*.gff -f roary
