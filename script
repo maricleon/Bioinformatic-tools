@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#nanofilt for filtering long read data 
+
+for f in *.fastq.gz; do
+    gunzip -c $f | NanoFilt -q 13 -l 5000 | gzip > "${f}".filtered;
+done
+
+#run unicycler 
+
+for f in *R1*.fastq.gz*
+do
+    unicycler -1 $f -2 ${f/R1/R2} -l ${f/R1/ont} --verbosity 2 --min_component_size 500, --min_dead_end_size 500 --threads 8 -o ${f/_R1*/_hybrid_assembly} 
+done
