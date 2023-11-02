@@ -1,4 +1,9 @@
-# Unicycler
-Hybrid assembly pipeline for Illumina Short Reads and Nanopore Long Reads
+# Bioinformatic tools
 
-For further details, please refer to the official page at https://github.com/rrwick/Unicycler
+Bioinformatic tools and scripts for:
+
+- antimicrobial resistance
+- plasmids
+- hybrid assembly
+- annotation
+- pangenome analysis
