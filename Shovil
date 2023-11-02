@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for file in $(ls *.trim.fastq.gz | sed -r 's/_R[12]_P1.trim.fastq.gz//'| uniq);  do
+
+shovill --outdir ./shovill/"${file##/}_output" --R1 "${file}_R1_P1.trim.fastq.gz" --R2 "${file}_R2_P1.trim.fastq.gz" --assembler velvet
+
+  echo ${file##*/}
+
+done
