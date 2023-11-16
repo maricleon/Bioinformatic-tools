@@ -12,4 +12,4 @@ for p in */*; do [ -f "$p" ] && mv -i "$p" "${p%/*}/${p/\//.}"; done
 
 mkdir allplasmids
 
-for f in */*plasmids*; do cp $f ./allplasmids; done
+for f in */*plasmid*; do cp $f ./allplasmids; done
