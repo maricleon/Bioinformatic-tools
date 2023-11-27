@@ -1,9 +1,9 @@
 # Bioinformatic tools
 
-Bioinformatic tools and scripts for:
+Bioinformatic tools, scripts and commands for:
 
-- antimicrobial resistance
-- plasmids
-- hybrid assembly
-- annotation
-- pangenome analysis
+- Antimicrobial resistance
+- Plasmids
+- Hybrid assembly
+- Annotation
+- Pangenome analysis
