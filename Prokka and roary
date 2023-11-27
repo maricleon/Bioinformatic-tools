@@ -3,7 +3,7 @@
 for k in *.fasta; do prokka $k --outdir "$k".prokka.output --prefix PROKKA_$k; echo $k; done #with this code, you can name a directory after a file name
 
 mkdir GFF
-cp ./*/*.gff GFF
+cp ./*/*.gff GFF #extract all gff file from every directory and move into directory named GFF
 
 roary -n -e -p 8 ./GFF/*.gff -f roary
 
