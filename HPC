@@ -6,7 +6,7 @@ How to copy files from windows powershell (local) to server:
 
 cd J:\
 cd .\others\Leon\nextseq_backup
-scp -r .\nextseq_backup\Nextseq\2022 leomar1@nlzoh.si@vlmbngs2.nlzoh.si: /volumes/homehpc/storage/raw_data/Nextseq/2022/.
+scp -r .\nextseq_backup\Nextseq\2022 leomar1@nlzoh.si@vlmbngs2.nlzoh.si:/volumes/homehpc/storage/raw_data/Nextseq/2022/.
 
 
 Using tmux:
