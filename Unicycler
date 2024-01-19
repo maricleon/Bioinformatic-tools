@@ -13,3 +13,40 @@ for f in *R1*.fastq.gz*; do
 
     unicycler -1 $f -2 ${f/R1/R2} -l ${f/R1/ont} --verbosity 2 --min_component_size 500 --min_dead_end_size 500 --threads 8 -o ${f/_R1*/_hybrid_assembly} ;
 done
+
+
+######################################################################## H P C #########################################################################
+#!/bin/bash
+
+#SBATCH --cpus-per-task=12
+#SBATCH --ntasks=15
+#SBATCH --mem-per-cpu=5G
+#SBATCH --time=16:00:00
+#SBATCH --job-name=assembly
+#SBATCH --nodelist=heracpu02.nlzoh.si
+
+
+#export PATH=$PATH:/home/nlzoh.si/leomar1/miniconda3/bin
+
+cd /home/storage/finished_projects/Leon/KP-CP/Unicycler/
+
+outdir=/home/storage/finished_projects/Leon/KP-CP/Unicycler/
+
+mkdir $outdir
+
+
+echo "Starting Unicycler"
+
+source /home/nlzoh.si/leomar1/.bashrc
+source activate py10
+
+for f in *R1*.fastq.gz*; do
+	while [ "$(jobs -p | wc -l)" -ge "$SLURM_NTASKS" ]; do
+        	sleep 30
+	done
+	srun --ntasks=1 --cpus-per-task=16 unicycler -1 $f -2 ${f/R1/R2} -l ${f/R1/ont} --verbosity 2 --threads 8 -o ${f/_R1*/_hybrid_assembly} &
+done
+wait
+
+
+
