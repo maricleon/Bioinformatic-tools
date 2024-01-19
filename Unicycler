@@ -14,6 +14,8 @@ for f in *R1*.fastq.gz*; do
     unicycler -1 $f -2 ${f/R1/R2} -l ${f/R1/ont} --verbosity 2 --min_component_size 500 --min_dead_end_size 500 --threads 8 -o ${f/_R1*/_hybrid_assembly} ;
 done
 
+for p in */assembly.fasta; do [ -f "$p" ] && mv -i "$p" "${p%/*}/${p/\//.}"; done
+
 
 ######################################################################## H P C #########################################################################
 #!/bin/bash
@@ -47,6 +49,8 @@ for f in *R1*.fastq.gz*; do
 	srun --ntasks=1 --cpus-per-task=16 unicycler -1 $f -2 ${f/R1/R2} -l ${f/R1/ont} --verbosity 2 --threads 8 -o ${f/_R1*/_hybrid_assembly} &
 done
 wait
+
+for p in */assembly.fasta; do [ -f "$p" ] && mv -i "$p" "${p%/*}/${p/\//.}"; done
 
 
 
