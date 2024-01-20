@@ -1,0 +1,14 @@
+for query_file in *.fasta; do
+    for subject_file in *.fasta; do
+        if [ "$query_file" != "$subject_file" ]; then
+            query_name=$(basename "$query_file" .fasta)
+            subject_name=$(basename "$subject_file" .fasta)
+            
+            blastn -query "$query_file" -subject "$subject_file" \
+                   -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore" \
+                   -out "blast_results_${query_name}_vs_${subject_name}.txt"
+        fi
+    done
+done
+
+cat *.txt > blast_output.txt
