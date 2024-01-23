@@ -3,10 +3,6 @@
 conda activate abricate
 
 abricate *.fasta --db ncbi --csv > output.file.txt
-ls *.fasta > list.txt
-
-abricate --fofn list.txt --db ncbi --csv > ncbi.all.csv
-
 abricate --summary ncbi.all.csv --csv > ncbi.summary.csv
 
 #optional: --minid 90 --mincov 70
