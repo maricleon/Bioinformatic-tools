@@ -1,6 +1,6 @@
 How to copy files, that contains for example AN, AS, AV and so on:
 
-find /path/to/source -type f \( -name "*AN*" -o -name "*AS*" -o -name "*AV*" -o -name "*BN*" -o -name "*BS*" -o -name "*BV*" -o -name "*CN*" -o -name "*CS*" -o -name "*CV*" \) -exec cp {} /path/to/destination +
+find /path/to/source -type f \( -name "*AN*" -o -name "*AS*" -o -name "*AV*" -o -name "*BN*" -o -name "*BS*" -o -name "*BV*" -o -name "*CN*" -o -name "*CS*" -o -name "*CV*" \) -exec cp {} /path/to/destination \;
 
 How to copy files from windows powershell (local) to server:
 
