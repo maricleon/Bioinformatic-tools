@@ -1,2 +1,3 @@
+conda activte pling
 ls -d -1 $PWD/*.fasta > pling_input.txt #first you have to make the paths of your fasta files  
 PYTHONPATH=/home/nlzoh.si/leomar1/program_files/pling/ python3 /home/nlzoh.si/leomar1/program_files/pling/pling/run_pling.py pling_input.txt ./pling_output.txt align #command for running pling
