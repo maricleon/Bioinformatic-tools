@@ -1,3 +1,13 @@
 conda activate pling
 ls -d -1 $PWD/*.fasta > pling_input.txt #first you have to make the paths of your fasta files  
 PYTHONPATH=/home/nlzoh.si/leomar1/program_files/pling/ python3 /home/nlzoh.si/leomar1/program_files/pling/pling/run_pling.py pling_input.txt ./pling_output.txt align #command for running pling
+
+
+# if you want to adjust it, think about this:
+
+  --containment_distance CONTAINMENT_DISTANCE
+                        Threshold for initial containment network. (default: 0.5)
+
+the command would be:
+
+PYTHONPATH=/home/nlzoh.si/leomar1/program_files/pling/ python3 /home/nlzoh.si/leomar1/program_files/pling/pling/run_pling.py --containment_distance 0.3 pling_input.txt ./pling_output.txt align
