@@ -1,0 +1,33 @@
+for f in *.fasta; do
+	~/program_files/plasmidfinder/plasmidfinder.py -i $f -o /home/storage/finished_projects/Leon/Doktorat/Plasmids/Prekmurje/ -p /home/storage/DB/plasmidfinder_db/ -mp /home/nlzoh.si/leomar1/miniconda3/bin/blastn -x -q;
+	cp results_tab.tsv ${f%.fasta}.replicons; 
+done
+
+
+
+
+
+
+
+for f
+sed "s/^/${f}.replicons/" "${f}.replicons/" > ${f}.replicons/
+
+
+for f in *replicons; do
+	sed "s/^/${f} /" "$f" > "${f}_replicons";
+done
+
+
+for f in */contigs.fasta; do 
+	cp $f ./${f%/contigs.fasta}.fasta;
+	mv *.fasta 4spades_results;
+done
+
+
+
+/home/storage/finished_projects/Leon/Doktorat/Assembly/Prekmurje/
+
+for f in /home/storage/finished_projects/Leon/Doktorat/Assembly/Prekmurje/*.fasta; do
+        ~/program_files/plasmidfinder/plasmidfinder.py -i $f -o /home/storage/finished_projects/Leon/Doktorat/Plasmids/Prekmurje/ -p /home/storage/DB/plasmidfinder_db/ -mp /home/nlzoh.si/leomar1/miniconda3/bin/blastn -x -q;
+        cp results_tab.tsv ${f%.fasta}.replicons;
+done
