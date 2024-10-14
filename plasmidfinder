@@ -1,6 +1,6 @@
 #run plasmidfinder for all samples
-for f in *.fasta; do
-	~/program_files/plasmidfinder/plasmidfinder.py -i $f -o /home/storage/finished_projects/Leon/Doktorat/Plasmids/Prekmurje/ -p /home/storage/DB/plasmidfinder_db/ -mp /home/nlzoh.si/leomar1/miniconda3/bin/blastn -x -q;
+for f in /home/storage/finished_projects/Leon/Doktorat/Prekmurje/Assembly/*.fasta; do
+	~/program_files/plasmidfinder/plasmidfinder.py -i $f -o /home/storage/finished_projects/Leon/Doktorat/Prekmurje/Plasmids/ -p /home/storage/DB/plasmidfinder_db/ -mp /home/nlzoh.si/leomar1/miniconda3/bin/blastn -x -q;
 	cp results_tab.tsv ${f%.fasta}.replicons; 
 done
 
