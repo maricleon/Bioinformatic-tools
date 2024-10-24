@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+import sys
+import Bio.SeqIO
+
+def snp_count(Seq1, Seq2):
+    if len(Seq1) != len(Seq2):
+        return -1
+    mismatches = 0
+
+    for i in range(0, len(Seq1)):
+        if Seq1[i] != Seq2[i]:
+            mismatches += 1
+    return mismatches
+
+
+def main(argv):
+    bestsnp_file = argv[1]
+    matrix_file = argv[2]
+    records = list(Bio.SeqIO.parse(bestsnp_file, "fasta"))
+    for sample in records:
+        sample.id = sample.id.split("::")[0]
+
+    with open(matrix_file, "w") as output_file:
+        output_file.write("\t")
+        for sample in records:
+            output_file.write(sample.id + "\t")
+        output_file.write("\n")
+        for i, sample in enumerate(records):
+            output_file.write(sample.id + "\t")
+            for j in range(0, len(records)):
+                if records[i].id == records[j].id:
+                    output_file.write("-\t")
+                else:
+                    output_file.write("{}\t".format(snp_count(records[i].seq, records[j].seq)))
+            output_file.write("\n")
+        output_file.write("\n")
+ 
+if __name__ == "__main__":
+
+    main(sys.argv)
