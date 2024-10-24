@@ -9,3 +9,38 @@ for file in *.fasta; do
 done
 
 cat *.txt >> all_amr.txt
+
+
+#!/bin/bash
+
+#SBATCH --cpus-per-task=12
+#SBATCH --ntasks=15
+#SBATCH --mem-per-cpu=5G
+#SBATCH --time=16:00:00
+#SBATCH --job-name=assembly
+#SBATCH --nodelist=heracpu02.nlzoh.si
+
+
+cd /home/storage/finished_projects/Leon/Doktorat/Podravje/06amrfinderplus/
+
+outdir=/home/storage/finished_projects/Leon/Doktorat/Podravje/06amrfinderplus/
+
+mkdir $outdir
+
+
+echo "AMRing"
+
+source /home/nlzoh.si/leomar1/.bashrc
+
+
+for f in /home/storage/finished_projects/Leon/Doktorat/Podravje/01assembly/*.fasta; do
+	while [ "$(jobs -p | wc -l)" -ge "$SLURM_NTASKS" ]; do
+        	sleep 30
+	done
+	srun --ntasks=1 --cpus-per-task=16 amrfinder -n ${file} -O Escherichia -o "${file##*/}_amr" --name ${file}
+done
+wait
+
+cat *.txt >> all_amr.txt
+
+
