@@ -1,0 +1,119 @@
+ #!/bin/bash
+ 
+tmux 
+
+
+salloc -N 1 --ntasks=10 --cpus-per-task=16 --mem-per-cpu=4000M --time=36:00:00 bash
+#torej bo delal 10 nalog (10 genomov) na 16 cpujih. SKupno torej rabi 160 cpujev naenkrat, mi jih imamo nekje 200 in gre skozi
+
+cd /home/nlzoh.si/leomar1/fastq_server_test
+
+outdir=/home/nlzoh.si/leomar1/fastq_server_test
+
+for file in $(ls *.trim.fastq.gz | sed -r 's/_R[12]_P1.trim.fastq.gz//'| uniq); do
+srun --ntasks=1 --cpus-per-task=16 spades.py -1 "${file}_R1_P1.trim.fastq.gz" -2 "${file}_R2_P1.trim.fastq.gz" --careful --cov-cutoff auto -o ${outdir}/"${file##/}_output" &
+done
+
+
+salloc -N 1 --ntasks=10 --cpus-per-task=16 --mem-per-cpu=4000M --time=36:00:00 bash
+
+outdir=/home/nlzoh.si/leomar1/fastq_server_test
+
+
+
+####################zdaj ko nimam veš spades izven, moram delat tako kot spodaj ##############
+
+#!/bin/bash
+
+#SBATCH --cpus-per-task=16
+#SBATCH --nodes=1
+#SBATCH --ntasks=10
+#SBATCH --mem-per-cpu=5G
+#SBATCH --time=4:00:00
+#SBATCH --account=leomar1@nlzoh.si
+#SBATCH --job-name=assembly-batch
+
+
+#export PATH=$PATH:/home/nlzoh.si/leomar1/miniconda3/bin
+
+source /home/nlzoh.si/leomar1/.bashrc
+
+conda activate tools
+
+for file in $(ls *.trim.fastq.gz | sed -r 's/_R[12]_P1.trim.fastq.gz//'| uniq);  do
+        spades.py -1 "${file}_R1_P1.trim.fastq.gz" -2 "${file}_R2_P1.trim.fastq.gz" --careful --cov-cutoff auto -o "${file##/}_output"
+        echo ${file##*/}
+done
+################################################################################################
+to zdaj dela: paralelno: z srunom. kar je bilo dejansko nareobe je, da na koncu nisva dala wait
+#!/bin/bash
+
+#SBATCH --cpus-per-task=16
+#SBATCH --nodes=1
+#SBATCH --ntasks=10
+#SBATCH --mem-per-cpu=5G
+#SBATCH --time=4:00:00
+#SBATCH --job-name=assembly
+
+#export PATH=$PATH:/home/nlzoh.si/leomar1/miniconda3/bin
+
+cd /home/nlzoh.si/leomar1/fastq_server_test
+
+outdir=/home/nlzoh.si/leomar1/fastq_server_test/test2
+
+mkdir $outdir
+
+
+echo "Starting Spades"
+
+source /home/nlzoh.si/leomar1/.bashrc
+source activate tools
+
+
+
+spades.py --help
+
+
+
+
+for file in $(ls *.trim.fastq.gz | sed -r 's/_R[12]_P1.trim.fastq.gz//'| uniq); do
+srun --ntasks=1 --cpus-per-task=16 spades.py -1 "${file}_R1_P1.trim.fastq.gz" -2 "${file}_R2_P1.trim.fastq.gz" --careful --cov-cutoff auto -o ${outdir}/"${file##/}_output" &
+done
+wait
+
+
+##############################################################################################
+spodaj skripta z zanko while, ki jo bom mogel uproabiti, da z njo povem, kak si naj razporedi delo na vse genome. ker jih bom v enim primerih imel preveč in bom mogel bremzat
+
+ #!/bin/bash
+
+#SBATCH --job-name pytest
+#SBATCH --output pytest.out
+#SBATCH --ntasks=3c
+#SBATCH --cpus-per-task=2
+#SBATCH --mem-per-cpu=500M
+#SBATCH --partition=interactive
+#SBATCH --time=0-00:8:00
+
+# load modules
+module load spack/2022a  gcc/12.1.0-2022a-gcc_8.5.0-ivitefn python/3.9.12-2022a-gcc_12.1.0-ys2veed
+
+for i in {1..20}; do
+    while [ "$(jobs -p | wc -l)" -ge "$SLURM_NTASKS" ]; do
+        sleep 30
+    done
+    srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK python pyScript.py "$i" &
+done
+wait
+##################################################################################################
+
+#loop za to, da v vsaki mapi preimenuje datoteke po imenu mape
+for i in ZZV*; do  name=${i%_hybrid_assembly}; mv $i/assembly.fasta $i/${name}.fasta; done
+
+
+
+
+
+
+
+
