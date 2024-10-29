@@ -30,3 +30,11 @@ for file in *.fastq.gz;  do
   filename=$(basename "$file")
 	srun flye --nano-corr $file -t 48 -o ./"${filename}_output" 
 done
+
+
+mkdir assembly
+
+for f in */*.fasta; do 
+	cp $f ./${f%/assembly.fasta}.fasta;
+	mv *.fasta assembly;
+done
