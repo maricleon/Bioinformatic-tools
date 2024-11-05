@@ -34,7 +34,12 @@ done
 
 mkdir assembly
 
-for f in */*.fasta; do 
+for f in *output*/*.fasta; do 
 	cp $f ./${f%/assembly.fasta}.fasta;
 	mv *.fasta assembly;
+done
+
+for f in *output*/*.gfa; do 
+	cp $f ./${f%/assembly_graph.gfa}.gfa;
+	mv *.gfa 4genomes;
 done
