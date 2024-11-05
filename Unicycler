@@ -1,25 +1,5 @@
 #!/bin/bash
 
-#As an example, your sequences appear as follows:
-sample1_R1.fastq.gz sample1_R2.fastq.gz sample1_ont.fastq.gz 
-sample2_R1.fastq.gz sample2_R2.fastq.gz sample2_ont.fastq.gz 
-sample3_R1.fastq.gz sample3_R2.fastq.gz sample3_ont.fastq.gz
-
-#nanofilt for filtering long read data
-
-#!/bin/bash
-
-for f in *R1*.fastq.gz*; do
-
-    unicycler -1 $f -2 ${f/R1/R2} -l ${f/R1/ont} --verbosity 2 --min_component_size 500 --min_dead_end_size 500 --threads 8 -o ${f/_R1*/_hybrid_assembly} ;
-done
-
-for p in */assembly.fasta; do [ -f "$p" ] && mv -i "$p" "${p%/*}/${p/\//.}"; done #name assembly.fasta files in every directory after the directory
-
-
-######################################################################## H P C #########################################################################
-#!/bin/bash
-
 #SBATCH --cpus-per-task=12
 #SBATCH --ntasks=15
 #SBATCH --mem-per-cpu=5G
@@ -27,30 +7,36 @@ for p in */assembly.fasta; do [ -f "$p" ] && mv -i "$p" "${p%/*}/${p/\//.}"; don
 #SBATCH --job-name=assembly
 #SBATCH --nodelist=heracpu02.nlzoh.si
 
-
-#export PATH=$PATH:/home/nlzoh.si/leomar1/miniconda3/bin
-
 cd /home/storage/finished_projects/Leon/KP-CP/Unicycler/
-
 outdir=/home/storage/finished_projects/Leon/KP-CP/Unicycler/
-
-mkdir $outdir
-
+mkdir -p $outdir
 
 echo "Starting Unicycler"
 
 source /home/nlzoh.si/leomar1/.bashrc
 source activate py10
 
-for f in *R1*.fastq.gz*; do
-	while [ "$(jobs -p | wc -l)" -ge "$SLURM_NTASKS" ]; do
-        	sleep 30
-	done
-	srun --ntasks=1 --cpus-per-task=16 unicycler -1 $f -2 ${f/R1/R2} -l ${f/R1/ont} --verbosity 2 --threads 8 -o ${f/_R1*/_hybrid_assembly} &
+# Loop through all R1 files to identify pairs and the filtered file based on prefix
+for r1_file in *R1*.fastq.gz; do
+	# Extract the prefix (e.g., "AN2-007") from the filename
+	prefix=$(echo "$r1_file" | cut -d'_' -f1)
+	
+	# Define corresponding R2 and filtered files using the prefix
+	r2_file="${r1_file/R1/R2}"
+	filtered_file="${prefix}.filtered.fastq.gz"
+
+	# Check if all necessary files exist before processing
+	if [[ -f $r1_file && -f $r2_file && -f $filtered_file ]]; then
+		while [ "$(jobs -p | wc -l)" -ge "$SLURM_NTASKS" ]; do
+			sleep 30
+		done
+
+		# Run Unicycler with the identified files
+		srun --ntasks=1 --cpus-per-task=16 unicycler -1 $r1_file -2 $r2_file -l $filtered_file --verbosity 2 --threads 8 -o ${prefix}_hybrid_assembly &
+	else
+		echo "Skipping $prefix: corresponding R2 or filtered file not found."
+	fi
 done
 wait
 
-for p in */assembly.fasta; do [ -f "$p" ] && mv -i "$p" "${p%/*}/${p/\//.}"; done
-
-
-
+#the script has been updated. Now you dont have rename files, because this script recognize R1 and R2 files and ont file that contains "filtered". Be aware of that.
