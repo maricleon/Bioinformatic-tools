@@ -39,4 +39,4 @@ for r1_file in *R1*.fastq.gz; do
 done
 wait
 
-#the script has been updated. Now you dont have rename files, because this script recognize R1 and R2 files and ont file that contains "filtered". Be aware of that.
+#the script has been updated. Now you dont have to rename files, because this script recognize R1 and R2 files and ont file that contains "filtered". Be aware of that.
