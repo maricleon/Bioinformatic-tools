@@ -1,4 +1,25 @@
- #!/bin/bash
+#########################resources available on HPC
+example:
+#SBATCH --cpus-per-task=12
+#SBATCH --ntasks=15
+#SBATCH --mem-per-cpu=5G
+#SBATCH --time=16:00:00
+#SBATCH --job-name=assembly
+#SBATCH --nodelist=heracpu02.nlzoh.si
+
+I have 15 tasks and each of them are using 12 cpus. So therefore alltogether I will use 180 cpus. Capacity is 256 CPUs. For each of them, I will use 5G. Therefore all together I will need 900 G. Capacity is 1000G.
+
+
+
+
+
+
+
+
+
+
+
+#!/bin/bash
  
 tmux 
 
