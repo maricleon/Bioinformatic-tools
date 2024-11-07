@@ -1,3 +1,7 @@
 for f in *.fasta; do
    perl ~/program_files/fimtyper/fimtyper.pl -i $f -o /home/storage/finished_projects/Leon/Doktorat/Prekmurje/08fimtyper/"$f" -d /home/nlzoh.si/leomar1/program_files/fimtyper/fimtyper_db/
 done
+
+#to rename each file after the name of directory:
+
+for p in */*; do [ -f "$p" ] && mv -i "$p" "${p%/*}/${p/\//.}"; done
