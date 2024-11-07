@@ -1,0 +1,3 @@
+for f in *.fasta; do
+   perl ~/program_files/fimtyper/fimtyper.pl -i $f -o /home/storage/finished_projects/Leon/Doktorat/Prekmurje/08fimtyper/"$f" -d /home/nlzoh.si/leomar1/program_files/fimtyper/fimtyper_db/
+done
