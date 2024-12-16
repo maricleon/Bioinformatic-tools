@@ -13,3 +13,11 @@ for p in */*; do [ -f "$p" ] && mv -i "$p" "${p%/*}/${p/\//.}"; done
 mkdir allplasmids
 
 for f in */*plasmid*; do cp $f ./allplasmids; done
+
+it didnt work because if mash and gsl
+cd /home/nlzoh.si/leomar1/miniconda3/envs/mob_suite/lib
+
+ln -s libgsl.so.27 libgsl.so.25
+ln -s libgsl.so.27.0.0 libgsl.so.25
+
+export LD_LIBRARY_PATH=/home/nlzoh.si/leomar1/miniconda3/envs/mob_suite/lib:$LD_LIBRARY_PATH
