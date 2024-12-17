@@ -1,0 +1,9 @@
+#polishing hybrid assebly or other assembly with short reads with pilon
+
+bwa index *.fasta
+bwa mem -t 32 *.fasta *R1* *R2* > mapped.sam
+samtools view -S -b *.sam > mapped.bam
+samtools sort *.bam -o mapped.sorted.bam
+samtools index mapped.sorted.bam 
+
+pilon --genome *.fasta --bam mapped.sorted.bam --threads 32 --output AV38-003-N_flye_pilon.fasta
