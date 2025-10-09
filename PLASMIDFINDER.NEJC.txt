@@ -1,0 +1,12 @@
+for file in *.fasta; do
+   base=$(basename "$file" .fasta)
+   outdir="results_${base}"
+   mkdir -p "$outdir" 
+   /home/nejc/plasmidfinder/plasmidfinder.py \
+       -i "$file" \
+       -o "$outdir" \
+       -p /home/storage/DB/plasmidfinder_db/ \
+       -mp /home/nejc/miniconda3/envs/pantools/bin/blastn \
+       -x -q
+done
+
